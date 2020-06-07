@@ -1,12 +1,10 @@
 import dash
 import dash_core_components as dcc
 import dash_html_components as html
-import requests as req
-import json
+import plotly.graph_objects as go
 
-weather_api_key = '75b76641c30c59ca0b51812fc7b1edd0'
-api_endpoint = 'https://api.openweathermap.org/data/2.5/onecall?'
-kelvin = 273.15
+from weather_api import getCurrentTemp
+from weather_api import getWeeklyHighs
 
 locations = {
     'Canmore': [51.07, -115.34],
@@ -24,15 +22,6 @@ colours = {
     'pale teal': '#819595'
 }
 
-def getLocationData(lat, lon):
-    response = req.get(f'{api_endpoint}lat={lat}&lon={lon}&exclude=minutely,hourly&appid={weather_api_key}')
-    data = json.loads(response.text)
-    return data['current']['temp']
-
-
-#response = req.get(f'{api_endpoint}lat={50}&lon={-114}&exclude=minutely,hourly&appid={weather_api_key}')
-#temp = json.loads(response.text)
-#temp = temp['current']['temp']
 
 elements = [
     html.H1(
@@ -51,12 +40,13 @@ elements = [
 ]
 
 for location in locations:
-    elements.append(html.H2(children = f"{location} Current Temp: {round(getLocationData(locations[location][0], locations[location][1]) - kelvin, 1)}", style = {
+    elements.append(html.H2(children = f"{location} Current Temp: {getCurrentTemp(locations[location][0], locations[location][1])}", style = {
         'textAlign': 'left',
         'color': colours['dark grey'],
         'font-family': ['Roboto', 'sans-serif'],
         'font-style': 'italic',
     }))
+    elements.append(dcc.Graph(figure = go.Figure(data=go.Scatter(x = [1,2,3,4,5,6,7,8], y = getWeeklyHighs(locations[location][0], locations[location][1])))))
 
 app = dash.Dash()
 
