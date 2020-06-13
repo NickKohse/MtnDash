@@ -35,6 +35,14 @@ def getWeeklyHighs(lat, lon):
 
 ##
 # Takes 2 floats representing the latitude and longitude of a location
+# Returns a weeks worth of rain amounts in mm(?) in an array
+##
+def getWeeklyPercip(lat, lon):
+    data = getLocationData(lat,lon)
+    return *map(lambda obj: obj['rain'] if 'rain' in obj else 0, data['daily']),
+
+##
+# Takes 2 floats representing the latitude and longitude of a location
 # Checks if we've done the search for this location in the last CACHE_TTL
 # seconds, and if so returns the saved info, otherwise hits the api
 # Returns the full json data

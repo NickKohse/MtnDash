@@ -5,6 +5,7 @@ import plotly.graph_objects as go
 
 from weather_api import getCurrentTemp
 from weather_api import getWeeklyHighs
+from weather_api import getWeeklyPercip
 
 locations = {
     'Canmore': [51.07, -115.34],
@@ -46,7 +47,18 @@ for location in locations:
         'font-family': ['Roboto', 'sans-serif'],
         'font-style': 'italic',
     }))
-    elements.append(dcc.Graph(figure = go.Figure(data=go.Scatter(x = [1,2,3,4,5,6,7,8], y = getWeeklyHighs(locations[location][0], locations[location][1])))))
+
+    fig = go.Figure(data=go.Scatter(
+        x = [1,2,3,4,5,6,7,8],
+        y = getWeeklyHighs(locations[location][0], locations[location][1]),
+    ), layout = {
+        'plot_bgcolor': colours['background'],
+        'paper_bgcolor': colours['background'],
+    })
+
+    fig.add_trace(go.Scatter(x = [1,2,3,4,5,6,7,8], y = getWeeklyPercip(locations[location][0], locations[location][1])))
+
+    elements.append(dcc.Graph(figure = fig))
 
 app = dash.Dash()
 
