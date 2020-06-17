@@ -2,6 +2,7 @@ import dash
 import dash_core_components as dcc
 import dash_html_components as html
 import plotly.graph_objects as go
+from datetime import datetime, timedelta
 
 from weather_api import getCurrentTemp
 from weather_api import getWeeklyHighs
@@ -20,9 +21,18 @@ colours = {
     'text': '#7FDBFF',
     'dark grey': '#363946',
     'light grey': '#696773',
-    'pale teal': '#819595'
+    'pale teal': '#7185AA'
 }
 
+def gen_x_axis_labels():
+    today = datetime.now()
+    x_axis = []
+
+    for _ in range(8):
+        x_axis.append(today.strftime("%d/%m"))
+        today += timedelta(days = 1)
+ 
+    return x_axis
 
 elements = [
     html.H1(
@@ -48,15 +58,23 @@ for location in locations:
         'font-style': 'italic',
     }))
 
+    x_labels = gen_x_axis_labels()
     fig = go.Figure(data=go.Scatter(
-        x = [1,2,3,4,5,6,7,8],
+        x = x_labels,
         y = getWeeklyHighs(locations[location][0], locations[location][1]),
+        name = "Temp (C)",
+        line = {'color': colours['dark grey']},
     ), layout = {
         'plot_bgcolor': colours['background'],
         'paper_bgcolor': colours['background'],
     })
 
-    fig.add_trace(go.Scatter(x = [1,2,3,4,5,6,7,8], y = getWeeklyPercip(locations[location][0], locations[location][1])))
+    fig.add_trace(go.Scatter(
+        x = x_labels,
+        y = getWeeklyPercip(locations[location][0], locations[location][1]),
+        name = "Rain (mm)",
+        line = {'color': colours['pale teal']},
+    ))
 
     elements.append(dcc.Graph(figure = fig))
 

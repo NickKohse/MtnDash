@@ -39,7 +39,7 @@ def getWeeklyHighs(lat, lon):
 ##
 def getWeeklyPercip(lat, lon):
     data = getLocationData(lat,lon)
-    return *map(lambda obj: obj['rain'] if 'rain' in obj else 0, data['daily']),
+    return *map(lambda obj: round(obj['rain'], 1) if 'rain' in obj else 0.0, data['daily']),
 
 ##
 # Takes 2 floats representing the latitude and longitude of a location
