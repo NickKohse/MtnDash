@@ -1,6 +1,6 @@
 import dash
-import dash_core_components as dcc
-import dash_html_components as html
+from dash import dcc
+from dash import html
 import plotly.graph_objects as go
 from datetime import datetime, timedelta
 
@@ -41,6 +41,7 @@ elements = [
             'textAlign': 'center',
             'color': colours['dark grey'],
             'font-family': ['Roboto', 'sans-serif'],
+            'font-size': '50px'
         }
     ),
     html.Div(children = 'Condition reports for the Southern Canadian Rockies.', style = {
