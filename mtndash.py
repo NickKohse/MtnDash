@@ -29,10 +29,13 @@ def gen_x_axis_labels():
     x_axis = []
 
     for _ in range(8):
-        x_axis.append(today.strftime("%d/%m"))
+        x_axis.append(today.strftime("%m/%d"))
         today += timedelta(days = 1)
  
     return x_axis
+
+def serve():
+    return html.Div(style={'backgroundColor': colours['background']}, children = elements)
 
 elements = [
     html.H1(
@@ -81,7 +84,7 @@ for location in locations:
 
 app = dash.Dash()
 
-app.layout = html.Div(style={'backgroundColor': colours['background']}, children = elements)
+app.layout = serve # This makes the page run the serve function on reload
 
 if __name__ == '__main__':
     app.run_server(debug = True)

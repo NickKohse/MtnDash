@@ -4,18 +4,13 @@ import time
 
 from constants import *
 
+global cache
 cache = {}
 
 class DataTimePair:
     def __init__(self, data, time):
         self.jsonData = data
         self.time = time
-
-class LatLonPair:
-    def __init__(self, lat, lon):
-        self.lat = lat
-        self.lon = lon
-
 
 ##
 # Takes 2 floats representing the latitude and longitude of a location
@@ -48,19 +43,18 @@ def getWeeklyPercip(lat, lon):
 # Returns the full json data
 ##
 def getLocationData(lat, lon):
-    location = LatLonPair(lat,lon)
+    location = f'{lat}{lon}'
     currentTime = int(time.time())
-    global cache
+    print(cache)
     if location in cache:
-        if cache[location].time > (currentTime - CACHE_TTL):
-            return cache[location].data
-        
-    # If it doesn't exist in cache or it's expired we need to hit the cache again 
+        if (currentTime - cache[location].time) < CACHE_TTL:
+            print("Hitting cache")
+            return cache[location].jsonData
+
+    print("Missed cache")    
+    # If it doesn't exist in cache or it's expired we need to hit the api 
     response = req.get(f'{API_ENDPOINT}lat={lat}&lon={lon}&exclude=minutely,hourly&appid={WEATHER_API_KEY}')
     data = json.loads(response.text)
     # Update cache
     cache[location] = DataTimePair(data, currentTime)
     return data
-
-
-
