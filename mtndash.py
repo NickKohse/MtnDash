@@ -3,10 +3,9 @@ from dash import dcc
 from dash import html
 import plotly.graph_objects as go
 from datetime import datetime, timedelta
+import logging
 
-from weather_api import getCurrentTemp
-from weather_api import getWeeklyHighs
-from weather_api import getWeeklyPercip
+import weather_api
 
 locations = {
     'Canmore': [51.07, -115.34],
@@ -55,7 +54,7 @@ elements = [
 ]
 
 for location in locations:
-    elements.append(html.H2(children = f"{location} Current Temp: {getCurrentTemp(locations[location][0], locations[location][1])}", style = {
+    elements.append(html.H2(children = f"{location} Current Temp: {weather_api.getCurrentTemp(locations[location][0], locations[location][1])}", style = {
         'textAlign': 'left',
         'color': colours['dark grey'],
         'font-family': ['Roboto', 'sans-serif'],
@@ -65,7 +64,7 @@ for location in locations:
     x_labels = gen_x_axis_labels()
     fig = go.Figure(data=go.Scatter(
         x = x_labels,
-        y = getWeeklyHighs(locations[location][0], locations[location][1]),
+        y = weather_api.getWeeklyHighs(locations[location][0], locations[location][1]),
         name = "Temp (C)",
         line = {'color': colours['dark grey']},
     ), layout = {
@@ -75,7 +74,7 @@ for location in locations:
 
     fig.add_trace(go.Scatter(
         x = x_labels,
-        y = getWeeklyPercip(locations[location][0], locations[location][1]),
+        y = weather_api.getWeeklyPercip(locations[location][0], locations[location][1]),
         name = "Rain (mm)",
         line = {'color': colours['pale teal']},
     ))
@@ -87,4 +86,6 @@ app = dash.Dash()
 app.layout = serve # This makes the page run the serve function on reload
 
 if __name__ == '__main__':
-    app.run_server(debug = True)
+    logging.basicConfig(filename='mtndash.log', level=logging.DEBUG, format='%(asctime)s %(message)s') 
+    logging.info('Starting Server...')
+    app.run_server(debug = True) # this is fucking with the logs somehow

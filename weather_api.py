@@ -1,11 +1,14 @@
 import requests as req
 import json
 import time
+import logging
 
 from constants import *
 
 global cache
 cache = {}
+logging.basicConfig(filename='mtndash.log', level=logging.DEBUG, format='%(asctime)s %(message)s') 
+
 
 class DataTimePair:
     def __init__(self, data, time):
@@ -48,11 +51,11 @@ def getLocationData(lat, lon):
     print(cache)
     if location in cache:
         if (currentTime - cache[location].time) < CACHE_TTL:
-            print("Hitting cache")
+            logging.info(f'Hit cache for lat: {lat} lon: {lon}')
             return cache[location].jsonData
 
-    print("Missed cache")    
-    # If it doesn't exist in cache or it's expired we need to hit the api 
+    logging.info(f'Missed cache for lat: {lat} lon: {lon}') 
+  
     response = req.get(f'{API_ENDPOINT}lat={lat}&lon={lon}&exclude=minutely,hourly&appid={WEATHER_API_KEY}')
     data = json.loads(response.text)
     # Update cache

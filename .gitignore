@@ -4,3 +4,5 @@ mtn/
 __pycache__/
 # api key
 key
+
+mtndash.log
