@@ -48,7 +48,6 @@ def getWeeklyPercip(lat, lon):
 def getLocationData(lat, lon):
     location = f'{lat}{lon}'
     currentTime = int(time.time())
-    print(cache)
     if location in cache:
         if (currentTime - cache[location].time) < CACHE_TTL:
             logging.info(f'Hit cache for lat: {lat} lon: {lon}')

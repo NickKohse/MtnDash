@@ -4,8 +4,13 @@ from dash import html
 import plotly.graph_objects as go
 from datetime import datetime, timedelta
 import logging
+import flask
 
 import weather_api
+
+server = flask.Flask(__name__)
+app = dash.Dash(__name__, server=server)
+app.title = "MTNDash"
 
 locations = {
     'Canmore': [51.07, -115.34],
@@ -52,7 +57,7 @@ elements = [
         'font-family': ['Roboto', 'sans-serif'],
     })
 ]
-
+# Location of this block likely prevents reloading data
 for location in locations:
     elements.append(html.H2(children = f"{location} Current Temp: {weather_api.getCurrentTemp(locations[location][0], locations[location][1])}", style = {
         'textAlign': 'left',
@@ -81,11 +86,9 @@ for location in locations:
 
     elements.append(dcc.Graph(figure = fig))
 
-app = dash.Dash()
-
 app.layout = serve # This makes the page run the serve function on reload
 
 if __name__ == '__main__':
     logging.basicConfig(filename='mtndash.log', level=logging.DEBUG, format='%(asctime)s %(message)s') 
     logging.info('Starting Server...')
-    app.run_server(debug = True) # this is fucking with the logs somehow
+    app.run_server(debug = True)
