@@ -8,6 +8,8 @@ import flask
 
 import weather_api
 
+from constants import *
+
 server = flask.Flask(__name__)
 app = dash.Dash(__name__, server=server)
 app.title = "MTNDash"
@@ -38,10 +40,7 @@ def gen_x_axis_labels():
  
     return x_axis
 
-def serve():
-    return html.Div(style={'backgroundColor': colours['background']}, children = elements)
-
-elements = [
+base_elements = [
     html.H1(
         children = 'MTNDash',
         style = {
@@ -57,38 +56,43 @@ elements = [
         'font-family': ['Roboto', 'sans-serif'],
     })
 ]
-# Location of this block likely prevents reloading data
-for location in locations:
-    elements.append(html.H2(children = f"{location} Current Temp: {weather_api.getCurrentTemp(locations[location][0], locations[location][1])}", style = {
-        'textAlign': 'left',
-        'color': colours['dark grey'],
-        'font-family': ['Roboto', 'sans-serif'],
-        'font-style': 'italic',
-    }))
 
-    x_labels = gen_x_axis_labels()
-    fig = go.Figure(data=go.Scatter(
-        x = x_labels,
-        y = weather_api.getWeeklyHighs(locations[location][0], locations[location][1]),
-        name = "Temp (C)",
-        line = {'color': colours['dark grey']},
-    ), layout = {
-        'plot_bgcolor': colours['background'],
-        'paper_bgcolor': colours['background'],
-    })
+def serve():
+    elements = base_elements.copy()
 
-    fig.add_trace(go.Scatter(
-        x = x_labels,
-        y = weather_api.getWeeklyPercip(locations[location][0], locations[location][1]),
-        name = "Rain (mm)",
-        line = {'color': colours['pale teal']},
-    ))
+    for location in locations:
+        elements.append(html.H2(children = f"{location} Current Temp: {weather_api.getCurrentTemp(locations[location][0], locations[location][1])}", style = {
+            'textAlign': 'left',
+            'color': colours['dark grey'],
+            'font-family': ['Roboto', 'sans-serif'],
+            'font-style': 'italic',
+        }))
 
-    elements.append(dcc.Graph(figure = fig))
+        x_labels = gen_x_axis_labels()
+        fig = go.Figure(data=go.Scatter(
+            x = x_labels,
+            y = weather_api.getWeeklyHighs(locations[location][0], locations[location][1]),
+            name = "Temp (C)",
+            line = {'color': colours['dark grey']},
+        ), layout = {
+            'plot_bgcolor': colours['background'],
+            'paper_bgcolor': colours['background'],
+        })
+
+        fig.add_trace(go.Scatter(
+            x = x_labels,
+            y = weather_api.getWeeklyPercip(locations[location][0], locations[location][1]),
+            name = "Rain (mm)",
+            line = {'color': colours['pale teal']},
+        ))
+
+        elements.append(dcc.Graph(figure = fig))
+   
+    return html.Div(style={'backgroundColor': colours['background']}, children = elements)
 
 app.layout = serve # This makes the page run the serve function on reload
 
 if __name__ == '__main__':
-    logging.basicConfig(filename='mtndash.log', level=logging.DEBUG, format='%(asctime)s %(message)s') 
+    logging.basicConfig(filename='mtndash.log', level=logging.getLevelName(LOG_LEVEL), format='%(asctime)s %(message)s')
     logging.info('Starting Server...')
     app.run_server(debug = True)

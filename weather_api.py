@@ -7,7 +7,7 @@ from constants import *
 
 global cache
 cache = {}
-logging.basicConfig(filename='mtndash.log', level=logging.DEBUG, format='%(asctime)s %(message)s') 
+logging.basicConfig(filename='mtndash.log', level=logging.getLevelName(LOG_LEVEL), format='%(asctime)s %(message)s')
 
 
 class DataTimePair:
