@@ -2,6 +2,7 @@ import dash
 from dash import dcc
 from dash import html
 import plotly.graph_objects as go
+from plotly.subplots import make_subplots
 from datetime import datetime, timedelta
 import logging
 import flask
@@ -69,22 +70,35 @@ def serve():
         }))
 
         x_labels = gen_x_axis_labels()
-        fig = go.Figure(data=go.Scatter(
+        fig = make_subplots(specs=[[{"secondary_y": True}]])
+
+        fig.update_layout(
+            plot_bgcolor = colours['background'],
+            paper_bgcolor = colours['background'],
+        )
+
+        fig.add_trace(go.Scatter(
             x = x_labels,
-            y = weather_api.getWeeklyHighs(locations[location][0], locations[location][1]),
+            y = weather_api.getWeeklyHighs(locations[location][0], locations[location][1]), # need to set the range as starting at 0 at least, also consider below 0 days
             name = "Temp (C)",
             line = {'color': colours['dark grey']},
-        ), layout = {
-            'plot_bgcolor': colours['background'],
-            'paper_bgcolor': colours['background'],
-        })
+        ),
+        secondary_y = False,
+        )
 
         fig.add_trace(go.Scatter(
             x = x_labels,
             y = weather_api.getWeeklyPercip(locations[location][0], locations[location][1]),
             name = "Rain (mm)",
             line = {'color': colours['pale teal']},
-        ))
+        ),
+        secondary_y = True,
+        )
+
+        fig.update_yaxes(title_text="Temperature", range=[0, max(weather_api.getWeeklyHighs(locations[location][0], locations[location][1])) + 1], secondary_y=False)
+        fig.update_yaxes(title_text="Percipitation", secondary_y=True)
+        fig.update_yaxes(showgrid=False, secondary_y=True)
+
 
         elements.append(dcc.Graph(figure = fig))
    

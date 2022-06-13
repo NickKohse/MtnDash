@@ -5,7 +5,7 @@ A Dashboard to report weather conditions of the Southern Rockies of Canada
 
 ## TODO
 - Get ready to deploy -specifically making a real service
-- independant y axes
+- switch rain mm chart to bar graph of pop
 - Script updating of server (i.e. pull newest code and restart server process)
 - Somewhat inefficient, seems to call serve funtion 2x per load (possibly only for dev server)
 - Figure out how often it calls the api, report it somehow
