@@ -76,11 +76,12 @@ def serve():
             plot_bgcolor = colours['background'],
             paper_bgcolor = colours['background'],
         )
+        highs = weather_api.getWeeklyHighs(locations[location][0], locations[location][1])
 
         fig.add_trace(go.Scatter(
             x = x_labels,
-            y = weather_api.getWeeklyHighs(locations[location][0], locations[location][1]), # need to set the range as starting at 0 at least, also consider below 0 days
-            name = "Temp (C)",
+            y = highs,
+            name = "Temperature (C)",
             line = {'color': colours['dark grey']},
         ),
         secondary_y = False,
@@ -95,7 +96,7 @@ def serve():
         secondary_y = True,
         )
 
-        fig.update_yaxes(title_text="Temperature", range=[0, max(weather_api.getWeeklyHighs(locations[location][0], locations[location][1])) + 1], secondary_y=False)
+        fig.update_yaxes(title_text="Temperature", range=[0 if min(highs) > 0 else min(highs), max(highs) + 1], secondary_y=False)
         fig.update_yaxes(title_text="Percipitation", secondary_y=True)
         fig.update_yaxes(showgrid=False, secondary_y=True)
 

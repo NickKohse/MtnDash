@@ -12,7 +12,7 @@ A Dashboard to report weather conditions of the Southern Rockies of Canada
 - Highlight the weekends in the graph somehow
 - add interval: https://dash.plotly.com/live-updates - can be quiet long 20+ minutes
 - Better/any error handling
-- Add snow forecasts (have them switch with rain forecasts at appropriate time)
+- Add snow forecasts (have them switch with rain forecasts at appropriate time), probably want snow as volume not chance
 - Find a better way to add cities than changing code
 - Fix white border on site to be background colour
 
