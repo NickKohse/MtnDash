@@ -1,0 +1,10 @@
+[Unit]
+Description=Run MTNDash app
+After=multi-user.taret
+
+[Service]
+ExecStart=/home/pi/MtnDash/scripts/start.sh
+User=pi
+
+[Install]
+WantedBy=multi-user.target
