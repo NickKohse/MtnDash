@@ -36,7 +36,10 @@ def gen_x_axis_labels():
     x_axis = []
 
     for _ in range(8):
-        x_axis.append(today.strftime("%m/%d"))
+        if today.weekday() > 4:
+            x_axis.append(f"<b>{today.strftime('%m/%d')}</b>")
+        else:
+            x_axis.append(today.strftime('%m/%d'))
         today += timedelta(days = 1)
  
     return x_axis
