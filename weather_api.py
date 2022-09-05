@@ -33,11 +33,11 @@ def getWeeklyHighs(lat, lon):
 
 ##
 # Takes 2 floats representing the latitude and longitude of a location
-# Returns a weeks worth of rain amounts in mm(?) in an array
+# Returns a weeks worth of pop values in %
 ##
 def getWeeklyPercip(lat, lon):
     data = getLocationData(lat,lon)
-    return *map(lambda obj: round(obj['rain'], 1) if 'rain' in obj else 0.0, data['daily']),
+    return *map(lambda obj: obj['pop'] * 100, data['daily']),
 
 ##
 # Takes 2 floats representing the latitude and longitude of a location

@@ -4,9 +4,8 @@
 A Dashboard to report weather conditions of the Southern Rockies of Canada
 
 ## TODO
-- switch rain mm chart to bar graph of pop
-- Somewhat inefficient, seems to call serve funtion 2x per load (possibly only for dev server)
-- Figure out how often it calls the api, report it somehow
+- Confirm that pop % works for snow as well as rain
+- Also see if its possible to fetch data in parallel, initial load time is slow
 - add interval: https://dash.plotly.com/live-updates - can be quiet long 20+ minutes even an hour or more
 - Better/any error handling
 - Add snow forecasts (have them switch with rain forecasts at appropriate time), probably want snow as volume not chance

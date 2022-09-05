@@ -93,14 +93,14 @@ def serve():
         fig.add_trace(go.Scatter(
             x = x_labels,
             y = weather_api.getWeeklyPercip(locations[location][0], locations[location][1]),
-            name = "Rain (mm)",
+            name = "POP (%)",
             line = {'color': colours['pale teal']},
         ),
         secondary_y = True,
         )
 
         fig.update_yaxes(title_text="Temperature", range=[0 if min(highs) > 0 else min(highs), max(highs) + 1], secondary_y=False)
-        fig.update_yaxes(title_text="Percipitation", secondary_y=True)
+        fig.update_yaxes(title_text="POP", range=[0,100], secondary_y=True)
         fig.update_yaxes(showgrid=False, secondary_y=True)
 
 
