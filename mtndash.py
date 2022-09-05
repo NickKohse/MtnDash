@@ -49,15 +49,16 @@ base_elements = [
         children = 'MTNDash',
         style = {
             'textAlign': 'center',
+            'marginTop': '0px',
             'color': colours['dark grey'],
-            'font-family': ['Roboto', 'sans-serif'],
-            'font-size': '50px'
+            'fontFamily': ['Roboto', 'sans-serif'],
+            'fontSize': '50px',
         }
     ),
     html.Div(children = 'Condition reports for the Southern Canadian Rockies.', style = {
         'textAlign': 'center',
         'color': colours['dark grey'],
-        'font-family': ['Roboto', 'sans-serif'],
+        'fontFamily': ['Roboto', 'sans-serif'],
     })
 ]
 
@@ -65,11 +66,12 @@ def serve():
     elements = base_elements.copy()
 
     for location in locations:
-        elements.append(html.H2(children = f"{location} Current Temp: {weather_api.getCurrentTemp(locations[location][0], locations[location][1])}", style = {
+        elements.append(html.H2(children = f"{location}: {weather_api.getCurrentTemp(locations[location][0], locations[location][1])}°", style = {
             'textAlign': 'left',
+            'marginLeft': '10px',
             'color': colours['dark grey'],
-            'font-family': ['Roboto', 'sans-serif'],
-            'font-style': 'italic',
+            'fontFamily': ['Roboto', 'sans-serif'],
+            'fontStyle': 'italic',
         }))
 
         x_labels = gen_x_axis_labels()
@@ -84,7 +86,7 @@ def serve():
         fig.add_trace(go.Scatter(
             x = x_labels,
             y = highs,
-            name = "Temperature (C)",
+            name = "Temperature (°C)",
             line = {'color': colours['dark grey']},
         ),
         secondary_y = False,
