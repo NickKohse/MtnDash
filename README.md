@@ -11,6 +11,7 @@ A Dashboard to report weather conditions of the Southern Rockies of Canada
 - Better/any error handling
 - Add snow forecasts (have them switch with rain forecasts at appropriate time), probably want snow as volume not chance
 - Find a better way to add cities than changing code
+- Ability to drill down in the wwekyl forcast graph to overlay an hour by hour for a given day when clicked
 
 ## Setup
 - Create venv called mtn
