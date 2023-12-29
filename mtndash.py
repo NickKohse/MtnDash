@@ -62,8 +62,22 @@ base_elements = [
     })
 ]
 
+def generate_highs_and_range():
+    highs = {}
+    temp_range_max = None
+    temp_range_min = None
+    for location in locations:
+        highs[location] = weather_api.getWeeklyHighs(locations[location][0], locations[location][1])
+        if temp_range_max == None or temp_range_max < max(highs[location]):
+            temp_range_max = max(highs[location])
+        if temp_range_min == None or temp_range_min > min(highs[location]):
+            temp_range_min = min(highs[location])
+    return highs, [temp_range_min - 1, temp_range_max + 1] # Give some margin for the temp graph
+
 def serve():
     elements = base_elements.copy()
+
+    location_highs, temp_range = generate_highs_and_range()
 
     for location in locations:
         elements.append(html.H2(children = f"{location}: {weather_api.getCurrentTemp(locations[location][0], locations[location][1])}°", style = {
@@ -81,7 +95,7 @@ def serve():
             plot_bgcolor = colours['background'],
             paper_bgcolor = colours['background'],
         )
-        highs = weather_api.getWeeklyHighs(locations[location][0], locations[location][1])
+        highs = location_highs[location]
 
         fig.add_trace(go.Scatter(
             x = x_labels,
@@ -101,7 +115,7 @@ def serve():
         secondary_y = True,
         )
 
-        fig.update_yaxes(title_text="Temperature", range=[0 if min(highs) > 0 else min(highs), max(highs) + 1], secondary_y=False)
+        fig.update_yaxes(title_text="Temperature", range=temp_range, secondary_y=False) #range=[0 if min(highs) > 0 else min(highs), max(highs) + 1]
         fig.update_yaxes(title_text="POP", range=[0,100], secondary_y=True)
         fig.update_yaxes(showgrid=False, secondary_y=True)
 
