@@ -25,6 +25,14 @@ def getCurrentTemp(lat, lon):
 
 ##
 # Takes 2 floats representing the latitude and longitude of a location
+# Returns the current condition string for that location, i.e. 'Rain - moderate rain'.
+##
+def getCurrentConditionString(lat, lon):
+    data = getLocationData(lat,lon)
+    return f"{data['current']['weather'][0]['main']} - {data['current']['weather'][0]['description']}"
+
+##
+# Takes 2 floats representing the latitude and longitude of a location
 # Returns a week worth of daily high temps in celcius in an array
 ##
 def getWeeklyHighs(lat, lon):

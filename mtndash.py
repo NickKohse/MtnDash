@@ -80,7 +80,7 @@ def serve():
     location_highs, temp_range = generate_highs_and_range()
 
     for location in locations:
-        elements.append(html.H2(children = f"{location}: {weather_api.getCurrentTemp(locations[location][0], locations[location][1])}°", style = {
+        elements.append(html.H2(children = f"{location}: {weather_api.getCurrentTemp(locations[location][0], locations[location][1])}° | {weather_api.getCurrentConditionString(locations[location][0], locations[location][1])}", style = {
             'textAlign': 'left',
             'marginLeft': '10px',
             'color': colours['dark grey'],
