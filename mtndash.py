@@ -115,12 +115,12 @@ def serve():
         secondary_y = True,
         )
 
-        fig.update_yaxes(title_text="Temperature", range=temp_range, secondary_y=False) #range=[0 if min(highs) > 0 else min(highs), max(highs) + 1]
+        fig.update_xaxes(fixedrange=True)
+        fig.update_yaxes(title_text="Temperature", range=temp_range, secondary_y=False, fixedrange=True) #range=[0 if min(highs) > 0 else min(highs), max(highs) + 1]
         fig.update_yaxes(title_text="POP", range=[0,100], secondary_y=True)
-        fig.update_yaxes(showgrid=False, secondary_y=True)
+        fig.update_yaxes(showgrid=False, secondary_y=True, fixedrange=True)
 
-
-        elements.append(dcc.Graph(figure = fig))
+        elements.append(dcc.Graph(figure = fig, config={ 'displayModeBar': False }))
    
     return html.Div(style={'backgroundColor': colours['background']}, children = elements)
 

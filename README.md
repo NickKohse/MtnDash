@@ -7,12 +7,12 @@ A Dashboard to report weather conditions of the Southern Rockies of Canada
 - Dark Mode
 - Confirm that pop % works for snow as well as rain
 - Also see if its possible to fetch data in parallel, initial load time is slow
-- Make the chart uneditable
 - add interval: https://dash.plotly.com/live-updates - can be quiet long 20+ minutes even an hour or more
 - Better/any error handling
 - Add snow forecasts (have them switch with rain forecasts at appropriate time), probably want snow as volume not chance
 - Find a better way to add cities than changing code
 - Ability to drill down in the weekly forcast graph to overlay an hour by hour for a given day when clicked
+
 ### Drilling down
 Lots of the todos are about adding more informatoin, but there can be only so many lies on one graph, it would be cool to be able to click on a locatoin and have it redirect to a new page with the following for example:
 - Temp high and low graph
