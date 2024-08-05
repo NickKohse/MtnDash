@@ -21,6 +21,7 @@ locations = {
     'Bragg Creek': [50.95, -114.57],
     'Lake Louise': [51.42, -116.17],
     'Radium': [50.61, -116.07],
+    'Frank': [49.59, -114.40],
 }
 
 colours = {
