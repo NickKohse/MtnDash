@@ -5,7 +5,7 @@ A Dashboard to report weather conditions of the Southern Rockies of Canada
 
 ## TODO
 - Dark Mode
-- Air quality 
+- Air quality - https://openweathermap.org/api/air-pollution
 - Confirm that pop % works for snow as well as rain
 - Also see if its possible to fetch data in parallel, initial load time is slow
 - add interval: https://dash.plotly.com/live-updates - can be quiet long 20+ minutes even an hour or more
