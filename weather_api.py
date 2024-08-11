@@ -31,6 +31,15 @@ def getCurrentConditionString(lat, lon):
     data = getLocationData(lat,lon)
     return f"{data['current']['weather'][0]['main']} - {data['current']['weather'][0]['description']}"
 
+
+##
+# Takes 2 floats representing the latitude and longitude of a location
+# Returns the current AQI for that location, (1-10)
+##
+def getCurrentAQI(lat, lon):
+    data = getLocationData(lat, lon)
+    return data['aqi_response']['list'][0]['main']['aqi']
+
 ##
 # Takes 2 floats representing the latitude and longitude of a location
 # Returns a week worth of daily high temps in celcius in an array
@@ -63,8 +72,10 @@ def getLocationData(lat, lon):
 
     logging.info(f'Missed cache for lat: {lat} lon: {lon}') 
   
-    response = req.get(f'{API_ENDPOINT}lat={lat}&lon={lon}&exclude=minutely,hourly&appid={WEATHER_API_KEY}')
+    response = req.get(f'{API_ENDPOINT}onecall?lat={lat}&lon={lon}&exclude=minutely,hourly&appid={WEATHER_API_KEY}')
     data = json.loads(response.text)
+    aqi_response = req.get(f'{API_ENDPOINT}air_pollution?lat={lat}&lon={lon}&appid={WEATHER_API_KEY}')
+    data['aqi_response'] = json.loads(aqi_response.text)
     # Update cache
     cache[location] = DataTimePair(data, currentTime)
     return data

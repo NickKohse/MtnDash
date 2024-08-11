@@ -5,7 +5,6 @@ A Dashboard to report weather conditions of the Southern Rockies of Canada
 
 ## TODO
 - Dark Mode
-- Air quality - https://openweathermap.org/api/air-pollution
 - Confirm that pop % works for snow as well as rain
 - Also see if its possible to fetch data in parallel, initial load time is slow
 - add interval: https://dash.plotly.com/live-updates - can be quiet long 20+ minutes even an hour or more
@@ -25,6 +24,9 @@ Lots of the todos are about adding more informatoin, but there can be only so ma
 - Activate it `source mtn/bin/activate`
 - `pip install -r requirements.txt`
 - Set the WEATHER_API_KEY env var or place the api key in a file called key, this must be a valid api key for: `api.openweathermap.org`
+
+### Upgrading dependancies
+Install and run pip-upgrade, select the upgrades you want. Commit the changes to [requirements.txt](./requirements.txt). Ensure they are applied on any server the site is deployed.
 
 ### Dev server
 - `python3 mtndash.py`
