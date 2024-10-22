@@ -4,6 +4,7 @@
 A Dashboard to report weather conditions of the Southern Rockies of Canada
 
 ## TODO
+- Switch to new API provider, current one changes its pricing model, try something like https://open-meteo.com/en/docs#hourly=&daily=temperature_2m_max&timezone=America%2FDenver
 - Dark Mode
 - Confirm that pop % works for snow as well as rain
 - Also see if its possible to fetch data in parallel, initial load time is slow
